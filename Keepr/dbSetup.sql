@@ -61,7 +61,8 @@ SELECT * FROM keeps ORDER BY id desc;
 
 SELECT 
 COUNT(vaultId) AS kept,
-k.*
-FROM keeps k LEFT JOIN vaultKeeps vk ON k.id = vk.keepId WHERE k.id = "3";
+k.*,
+a.*
+FROM keeps k LEFT JOIN vaultKeeps vk ON k.id = vk.keepId JOIN accounts a ON k.creatorId = a.id WHERE k.id = "3";
 
 SELECT * FROM vaults;

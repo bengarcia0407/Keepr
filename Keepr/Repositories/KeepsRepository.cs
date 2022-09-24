@@ -28,7 +28,16 @@ namespace Keepr.Repositories
 
     internal Keep GetKeepById(int id)
     {
-      throw new NotImplementedException();
+      string sql = @"SELECT 
+        COUNT(vaultId) AS kept,
+        k.*,
+        a.*
+        FROM keeps k 
+        LEFT JOIN vaultKeeps vk ON k.id = vk.keepId
+        JOIN accounts a ON k.creatorId = a.id 
+        WHERE k.id = @id;";
+        Keep keep = _db.Query<Keep>(sql, new {id}).FirstOrDefault();
+        return keep;
     }
 
     internal List<Keep> GetAllProfileKeeps(string userId)

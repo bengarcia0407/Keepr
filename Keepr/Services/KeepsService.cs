@@ -42,8 +42,8 @@ namespace Keepr.Services
       if (keep == null){
         throw new Exception ("unable to find keep with that Id");
       }
-      keep.Views++;
-      _keepsRepo.EditKeep(keep);
+      // keep.Views++;
+      // _keepsRepo.EditKeep(keep);
       return keep;
     }
 

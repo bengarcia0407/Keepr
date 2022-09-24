@@ -36,7 +36,10 @@ namespace Keepr.Repositories
         LEFT JOIN vaultKeeps vk ON k.id = vk.keepId
         JOIN accounts a ON k.creatorId = a.id 
         WHERE k.id = @id;";
-        Keep keep = _db.Query<Keep>(sql, new {id}).FirstOrDefault();
+        Keep keep = _db.Query<Keep, Profile, Keep>(sql, (keep, profile) => {
+          keep.Creator = profile;
+          return keep;
+        }, new {id}).FirstOrDefault();
         return keep;
     }
 

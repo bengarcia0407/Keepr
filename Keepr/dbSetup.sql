@@ -52,4 +52,16 @@ CREATE TABLE IF NOT EXISTS vaultKeeps(
   FOREIGN KEY (keepId) REFERENCES keeps(id) ON DELETE CASCADE
 ) default charset utf8 COMMENT '';
 
+INSERT INTO vaultKeeps
+(creatorId, vaultId, keepId)
+VALUES
+("62fead19fda8e818d13a81db", "1", "3");
+
 SELECT * FROM keeps ORDER BY id desc;
+
+SELECT 
+COUNT(vaultId) AS kept,
+k.*
+FROM keeps k LEFT JOIN vaultKeeps vk ON k.id = vk.keepId WHERE k.id = "3";
+
+SELECT * FROM vaults;

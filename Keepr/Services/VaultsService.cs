@@ -16,10 +16,27 @@ namespace Keepr.Services
 
     internal List<Vault> GetAllProfileVaults(string id, string userId)
     {
-      return _vaultsRepo.GetAllProfileVaults(id);
+      List<Vault> vaults = _vaultsRepo.GetAllProfileVaults(userId);
+      vaults = vaults.FindAll(v => v.IsPrivate == false || v.CreatorId == userId);
+      return vaults;
     }
 
-    internal Vault GetVaultById(int id1, string id2)
+    internal Vault GetVaultById(int vaultId, string userId)
+    {
+      throw new NotImplementedException();
+    }
+
+    internal Vault CreateVault(Vault vaultData)
+    {
+      throw new NotImplementedException();
+    }
+
+    internal Vault EditVault(Vault vaultData, Account user)
+    {
+      throw new NotImplementedException();
+    }
+
+    internal string DeleteVault(int id, Account user)
     {
       throw new NotImplementedException();
     }

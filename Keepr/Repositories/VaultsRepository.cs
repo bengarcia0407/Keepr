@@ -1,12 +1,14 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Keepr.Models;
 
 namespace Keepr.Repositories
 {
-    public class VaultsRepository
+  public class VaultsRepository
+  {
+    internal List<Vault> GetAllProfileVaults(string id)
     {
-        
+      throw new NotImplementedException();
     }
+  }
 }

@@ -72,6 +72,7 @@ namespace Keepr.Controllers
       try
       {
         Account user = await HttpContext.GetUserInfoAsync<Account>();
+        // V this lets us send the id up attached to the object
         keepData.Id = id;
         Keep keep = _keepsService.EditKeep(keepData, user);
         return Ok(keep);

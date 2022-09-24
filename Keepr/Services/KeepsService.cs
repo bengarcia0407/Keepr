@@ -7,7 +7,7 @@ namespace Keepr.Services
 {
   public class KeepsService
     {
-                private readonly KeepsRepository _keepsRepo;
+    private readonly KeepsRepository _keepsRepo;
 
     public KeepsService(KeepsRepository keepsRepo)
     {
@@ -30,6 +30,21 @@ namespace Keepr.Services
     }
 
     internal Keep CreateKeep(Keep keepData)
+    {
+      throw new NotImplementedException();
+    }
+
+    internal Keep EditKeep(Keep keepData, Account user)
+    {
+      throw new NotImplementedException();
+    }
+
+    internal string DeleteKeep(int id, Account user)
+    {
+      throw new NotImplementedException();
+    }
+
+    internal List<Keep> GetAllKeepsByVaultId(int id)
     {
       throw new NotImplementedException();
     }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using CodeWorks.Auth0Provider;
 using Keepr.Models;
@@ -20,6 +21,7 @@ namespace Keepr.Controllers
       _vaultsService = vaultsService;
       _keepsService = keepsService;
     }
+
 // STUB get one vault by its id, 
     [HttpGet("{id}")]
     [Authorize]
@@ -29,6 +31,66 @@ namespace Keepr.Controllers
          Account user = await HttpContext.GetUserInfoAsync<Account>();
          Vault vault = _vaultsService.GetVaultById(id, user.Id);
          return Ok(vault);
+      }
+      catch (Exception e)
+      {
+        return BadRequest(e.Message);
+      }
+    }
+// STUB get all keeps associated with the active vault
+    [HttpGet("{id}/keeps")]
+    public ActionResult<List<Keep>> GetAllKeepsByVaultId(int id)
+    {
+      try
+      {
+        List<Keep> keeps = _keepsService.GetAllKeepsByVaultId(id);
+        return Ok(keeps);
+      }
+      catch (Exception e)
+      {
+        return BadRequest(e.Message);
+      }
+    }
+    [HttpPost]
+    [Authorize]
+    public async Task<ActionResult<Vault>> CreateVault([FromBody] Vault vaultData){
+      try
+      {
+        Account user = await HttpContext.GetUserInfoAsync<Account>();
+        vaultData.CreatorId = user.Id;
+        Vault vault = _vaultsService.CreateVault(vaultData);
+        vault.Creator = user;
+        return Ok(vault);
+      }
+      catch (Exception e)
+      {
+        return BadRequest(e.Message);
+      }
+    }
+    [HttpPut("{id}")]
+    [Authorize]
+    public async Task<ActionResult<Vault>> EditVault(int id, [FromBody] Vault vaultData){
+      try
+      {
+        Account user = await HttpContext.GetUserInfoAsync<Account>();
+        vaultData.Id = id;
+        Vault vault = _vaultsService.EditVault(vaultData, user);
+        vault.Creator = user;
+        return Ok(vault);
+      }
+      catch (Exception e)
+      {
+        return BadRequest(e.Message);
+      }
+    }
+    [HttpDelete("{id}")]
+    [Authorize]
+    public async Task<ActionResult<string>> DeleteVault(int id){
+      try
+      {
+        Account user = await HttpContext.GetUserInfoAsync<Account>();
+        string message = _vaultsService.DeleteVault(id, user);
+        return Ok(message);
       }
       catch (Exception e)
       {

@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS keeps(
 
 INSERT INTO keeps
 (creatorId, name, img)
-VALUE
+VALUES
 ("632e194f96fb01c2672f465c", "cat3", "https://www.rd.com/wp-content/uploads/2020/07/35_No-regrets-1.jpg?fit=700,700");
 
 CREATE TABLE IF NOT EXISTS vaults(
@@ -65,4 +65,11 @@ k.*,
 a.*
 FROM keeps k LEFT JOIN vaultKeeps vk ON k.id = vk.keepId JOIN accounts a ON k.creatorId = a.id WHERE k.id = "3";
 
-SELECT * FROM vaults;
+-- https://localhost:5001/api/keeps
+-- https://localhost:5001/api/keeps/(id)
+
+SELECT * FROM keeps k 
+WHERE k.creatorId = "62fead19fda8e818d13a81db" 
+ORDER BY k.id desc;
+
+-- https://localhost:5001/account/62fead19fda8e818d13a81db/keeps

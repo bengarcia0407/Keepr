@@ -45,17 +45,29 @@ namespace Keepr.Repositories
 
     internal List<Keep> GetAllProfileKeeps(string userId)
     {
-      throw new NotImplementedException();
+      string sql = @"SELECT * FROM keeps k 
+        WHERE k.creatorId = @userId 
+        ORDER BY k.id desc;";
+      List<Keep> keeps = _db.Query<Keep>(sql, new { userId }).ToList();
+      return keeps;
     }
 
     internal List<Keep> GetAllKeepsByVaultId(int vaultId)
     {
+      // setup vault routes first
       throw new NotImplementedException();
     }
 
     internal Keep CreateKeep(Keep keepData)
     {
-      throw new NotImplementedException();
+      string sql = @"INSERT INTO keeps
+        (creatorId, name, description, img)
+        VALUES
+        (@creatorId, @name, @description, @img);
+        SELECT LAST_INSERT_ID()";
+        int id = _db.ExecuteScalar<int>(sql, keepData);
+        keepData.Id = id;
+        return keepData;
     }
 
     internal Keep EditKeep(Keep original)

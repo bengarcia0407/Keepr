@@ -28,5 +28,10 @@ namespace Keepr.Services
     {
       throw new NotImplementedException();
     }
+
+    internal Keep CreateKeep(Keep keepData)
+    {
+      throw new NotImplementedException();
+    }
   }
 }

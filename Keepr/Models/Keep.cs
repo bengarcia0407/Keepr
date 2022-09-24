@@ -7,7 +7,7 @@ namespace Keepr.Models
     public string Name { get; set; }
     public string Description { get; set; }
     public string Img { get; set; }
-    public int Views { get; set; }
+    public int? Views { get; set; }
     public int Kept { get; set; }
     //   ^^^ this is not on the table but is calculated on get
     public int Shares { get; set; }

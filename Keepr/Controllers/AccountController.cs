@@ -40,12 +40,13 @@ namespace Keepr.Controllers
         }
 
             // STUB get all keeps created by me
-    [HttpGet("{userId}/keeps")]
-    public ActionResult<List<Keep>> GetAllAccountKeeps(string userId)
+    [HttpGet("/keeps")]
+    public async Task<ActionResult<List<Keep>>> GetAllAccountKeeps()
     {
       try
       {
-        List<Keep> keeps = _keepsService.GetAllProfileKeeps(userId);
+        Account user = await HttpContext.GetUserInfoAsync<Account>();
+        List<Keep> keeps = _keepsService.GetAllProfileKeeps(user.Id);
         return Ok(keeps);
       }
       catch (Exception e)
@@ -55,13 +56,14 @@ namespace Keepr.Controllers
     }
 
         // STUB get all Vaults created by me
-    [HttpGet("{userId}/vaults")]
-    public async Task<ActionResult<List<Vault>>> GetAllAccountVaults(string userId)
+    [HttpGet("/vaults")]
+    public async Task<ActionResult<List<Vault>>> GetAllAccountVaults()
     {
       try
       {
         Account user = await HttpContext.GetUserInfoAsync<Account>();
-        List<Vault> vaults = _vaultsService.GetAllProfileVaults(userId, user.Id);
+        // yes, I did pass my own id twice... this made more sense than writing a new method
+        List<Vault> vaults = _vaultsService.GetAllProfileVaults(user.Id, user.Id);
         return Ok(vaults);
       }
       catch (Exception e)

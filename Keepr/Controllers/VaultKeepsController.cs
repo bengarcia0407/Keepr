@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using CodeWorks.Auth0Provider;
 using Keepr.Models;
@@ -19,6 +20,36 @@ namespace Keepr.Controllers
       _vaultKeepsService = vaultKeepsService;
     }
 // I never need to get vaultkeeps directly, i just use them to join vaults to keeps, so my only cruds are create and delete
+    
+    [HttpGet]
+    public ActionResult<VaultKeep> GetAll(){
+      try
+      {
+        List<VaultKeep> vaultKeeps = _vaultKeepsService.GetAll();
+        return Ok(vaultKeeps);
+      }
+      catch (Exception e)
+      {
+        return BadRequest(e.Message);
+      }
+    }
+
+    [HttpGet("{id}")]
+    [Authorize]
+    public async Task<ActionResult<VaultKeep>> GetById(int id)
+    {
+      try
+      {
+        Account user = await HttpContext.GetUserInfoAsync<Account>();
+        VaultKeep vaultKeep = _vaultKeepsService.GetById(id, user);
+        return Ok(vaultKeep);
+      }
+      catch (Exception e)
+      {
+        return BadRequest(e.Message);
+      }
+    }
+
     [HttpPost]
     [Authorize]
     // the body needs to include the vaultId and the keepId

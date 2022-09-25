@@ -36,14 +36,16 @@ namespace Keepr.Services
       }
       return _keepsRepo.GetAllKeepsByVaultId(vaultId);
     }
-    internal Keep GetKeepById(int id)
+    internal Keep GetKeepById(int id, Account user)
     {
       Keep keep = _keepsRepo.GetKeepById(id);
       if (keep.Name == null){
         throw new Exception("unable to find keep with that Id");
       }
+      if (keep.CreatorId != user.Id){
       keep.Views++;
       _keepsRepo.EditKeep(keep);
+      }
       return keep;
     }
 
@@ -54,7 +56,7 @@ namespace Keepr.Services
 
     internal Keep EditKeep(Keep keepData, Account user)
     {
-      Keep original = GetKeepById(keepData.Id);
+      Keep original = GetKeepById(keepData.Id, user);
       if (original.CreatorId != user.Id){
         throw new Exception("you are not authorized to edit this keep");
       }
@@ -67,7 +69,7 @@ namespace Keepr.Services
 
     internal string DeleteKeep(int id, Account user)
     {
-      Keep keep = GetKeepById(id);
+      Keep keep = GetKeepById(id, user);
       if (keep.CreatorId != user.Id){
         throw new Exception("you are not authorized to delete that keep");
       }

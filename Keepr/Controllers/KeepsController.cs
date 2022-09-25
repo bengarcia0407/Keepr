@@ -35,11 +35,12 @@ namespace Keepr.Controllers
     }
     // STUB get one keep by its ID, this will be stored in the AppState, and increment views by 1
     [HttpGet("{id}")]
-    public ActionResult<Keep> GetKeepById(int id)
+    public async Task<ActionResult<Keep>> GetKeepById(int id)
     {
       try
       {
-        Keep keep = _keepsService.GetKeepById(id);
+        Account user = await HttpContext.GetUserInfoAsync<Account>();
+        Keep keep = _keepsService.GetKeepById(id, user);
         return Ok(keep);
       }
       catch (Exception e)

@@ -40,9 +40,9 @@ CREATE TABLE IF NOT EXISTS vaults(
 ) default charset utf8 COMMENT '';
 
 INSERT INTO vaults
-(creatorId, name, img)
+(creatorId, name, img, isPrivate)
 VALUES
-("632e194f96fb01c2672f465c", "not funny", "https://i0.wp.com/winkgo.com/wp-content/uploads/2018/05/55-Funniest-Cat-Memes-Ever-Featured.jpg?fit=800%2C450&ssl=1");
+("632e194f96fb01c2672f465c", "private", "https://i0.wp.com/winkgo.com/wp-content/uploads/2018/05/55-Funniest-Cat-Memes-Ever-Featured.jpg?fit=800%2C450&ssl=1", true);
 
 CREATE TABLE IF NOT EXISTS vaultKeeps(
   id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,

@@ -9,13 +9,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Keepr.Controllers
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class AccountController : ControllerBase
-    {
-        private readonly AccountService _accountService;
-        private readonly KeepsService _keepsService;
-        private readonly VaultsService _vaultsService;
+  [ApiController]
+  [Route("[controller]")]
+  public class AccountController : ControllerBase
+  {
+    private readonly AccountService _accountService;
+    private readonly KeepsService _keepsService;
+    private readonly VaultsService _vaultsService;
 
     public AccountController(AccountService accountService, KeepsService keepsService, VaultsService vaultsService)
     {
@@ -25,21 +25,22 @@ namespace Keepr.Controllers
     }
 
     [HttpGet]
-        [Authorize]
-        public async Task<ActionResult<Account>> Get()
-        {
-            try
-            {
-                Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
-                return Ok(_accountService.GetOrCreateProfile(userInfo));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
+    [Authorize]
+    public async Task<ActionResult<Account>> Get()
+    {
+      try
+      {
+        Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
+        return Ok(_accountService.GetOrCreateProfile(userInfo));
+      }
+      catch (Exception e)
+      {
+        return BadRequest(e.Message);
+      }
+    }
 
-            // STUB get all keeps created by me
+    // STUB get all keeps created by me
+    // https://localhost:5001/account/keeps
     [HttpGet("/keeps")]
     public async Task<ActionResult<List<Keep>>> GetAllAccountKeeps()
     {
@@ -55,7 +56,7 @@ namespace Keepr.Controllers
       }
     }
 
-        // STUB get all Vaults created by me
+    // STUB get all Vaults created by me
     [HttpGet("/vaults")]
     public async Task<ActionResult<List<Vault>>> GetAllAccountVaults()
     {
@@ -71,6 +72,6 @@ namespace Keepr.Controllers
         return BadRequest(e.Message);
       }
     }
-    }
+  }
 
 }

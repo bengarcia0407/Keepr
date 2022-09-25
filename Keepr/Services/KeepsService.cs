@@ -28,9 +28,9 @@ namespace Keepr.Services
 
     internal List<Keep> GetAllKeepsByVaultId(int vaultId, string userId)
     {
-      // nullcheck
+      // null check
       Vault vault = _vaultsService.GetVaultById(vaultId, userId);
-      // authcheck
+      // auth check
       if (vault.CreatorId != userId){
         throw new Exception("only the vault creator may access this vault");
       }

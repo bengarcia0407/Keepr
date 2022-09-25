@@ -38,14 +38,14 @@ namespace Keepr.Controllers
       }
     }
 // STUB get all keeps associated with the active vault
-    [HttpGet("{id}/keeps")]
+    [HttpGet("{vaultId}/keeps")]
     [Authorize]
-    public async Task<ActionResult<List<Keep>>> GetAllKeepsByVaultId(int id)
+    public async Task<ActionResult<List<Keep>>> GetAllKeepsByVaultId(int vaultId)
     {
       try
       {
         Account user = await HttpContext.GetUserInfoAsync<Account>();
-        List<Keep> keeps = _keepsService.GetAllKeepsByVaultId(id, user.Id);
+        List<Keep> keeps = _keepsService.GetAllKeepsByVaultId(vaultId, user.Id);
         return Ok(keeps);
       }
       catch (Exception e)

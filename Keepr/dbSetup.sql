@@ -22,6 +22,8 @@ CREATE TABLE IF NOT EXISTS keeps(
   FOREIGN KEY (creatorId) REFERENCES accounts(id) ON DELETE CASCADE
 ) default charset utf8 COMMENT '';
 
+ALTER TABLE keeps ADD COLUMN vaultKeepId INT AFTER shares;
+
 INSERT INTO keeps
 (creatorId, name, img)
 VALUES
@@ -83,3 +85,12 @@ WHERE k.creatorId = "62fead19fda8e818d13a81db"
 ORDER BY k.id desc;
 
 -- https://localhost:5001/account/62fead19fda8e818d13a81db/keeps
+
+SELECT 
+k.name, k.description, k.img, k.shares, k.views, a.name, a.picture, vk.*
+FROM vaultKeeps vk 
+JOIN keeps k ON vk.keepId = k.id
+JOIN accounts a ON k.creatorId = a.id
+WHERE vk.vaultId = "3";
+
+SELECT * FROM keeps;

@@ -7,8 +7,8 @@ using Keepr.Models;
 namespace Keepr.Repositories
 {
   public class KeepsRepository
-    {
-        private readonly IDbConnection _db;
+  {
+    private readonly IDbConnection _db;
 
     public KeepsRepository(IDbConnection db)
     {
@@ -18,7 +18,8 @@ namespace Keepr.Repositories
     internal List<Keep> GetAllKeeps()
     {
       string sql = "SELECT k.*, a.* FROM keeps k JOIN accounts a ON a.id = k.creatorId ORDER BY k.id desc;";
-      List<Keep> keeps = _db.Query<Keep, Profile, Keep>(sql, (keep, profile) => {
+      List<Keep> keeps = _db.Query<Keep, Profile, Keep>(sql, (keep, profile) =>
+      {
         keep.Creator = profile;
         return keep;
       }).ToList();
@@ -35,11 +36,12 @@ namespace Keepr.Repositories
         LEFT JOIN vaultKeeps vk ON k.id = vk.keepId
         JOIN accounts a ON k.creatorId = a.id 
         WHERE k.id = @id;";
-        Keep keep = _db.Query<Keep, Profile, Keep>(sql, (keep, profile) => {
-          keep.Creator = profile;
-          return keep;
-        }, new {id}).FirstOrDefault();
+      Keep keep = _db.Query<Keep, Profile, Keep>(sql, (keep, profile) =>
+      {
+        keep.Creator = profile;
         return keep;
+      }, new { id }).FirstOrDefault();
+      return keep;
     }
 
     internal List<Keep> GetAllProfileKeeps(string userId)
@@ -54,16 +56,18 @@ namespace Keepr.Repositories
     internal List<Keep> GetAllKeepsByVaultId(int vaultId)
     {
       string sql = @"SELECT 
-        k.*, a.*
+        k.*, a.*, vk.*
         FROM vaultKeeps vk 
         JOIN keeps k ON vk.keepId = k.id
         JOIN accounts a ON k.creatorId = a.id
-        WHERE vk.vaultId = @id;";
-        List<Keep> keeps = _db.Query<Keep, Profile, Keep>(sql, (keep, profile)=>{
-          keep.Creator = profile;
-          return keep;
-        }, new {vaultId}).ToList();
-        return keeps;
+        WHERE vk.vaultId = @vaultId;";
+      List<Keep> keeps = _db.Query<Keep, Profile, VaultKeep, Keep>(sql, (keep, profile, vk) =>
+      {
+        keep.VaultKeepId = vk.Id;
+        keep.Creator = profile;
+        return keep;
+      }, new { vaultId }).ToList();
+      return keeps;
     }
 
     internal Keep CreateKeep(Keep keepData)
@@ -73,9 +77,9 @@ namespace Keepr.Repositories
         VALUES
         (@creatorId, @name, @description, @img);
         SELECT LAST_INSERT_ID();";
-        int id = _db.ExecuteScalar<int>(sql, keepData);
-        keepData.Id = id;
-        return keepData;
+      int id = _db.ExecuteScalar<int>(sql, keepData);
+      keepData.Id = id;
+      return keepData;
     }
 
     internal Keep EditKeep(Keep edit)
@@ -94,7 +98,7 @@ namespace Keepr.Repositories
     internal void DeleteKeep(int id)
     {
       string sql = "DELETE FROM keeps WHERE id = @id;";
-      _db.Execute(sql, new {id});
+      _db.Execute(sql, new { id });
     }
   }
 }

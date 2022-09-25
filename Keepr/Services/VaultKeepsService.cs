@@ -21,7 +21,7 @@ namespace Keepr.Services
     internal VaultKeep GetById(int id, Account user)
     {
       VaultKeep vaultKeep = _vaultKeepsRepo.GetById(id);
-      if (vaultKeep == null){
+      if (vaultKeep.CreatorId == null){
         throw new Exception("unable to find VaultKeep with that Id");
       }
       if (vaultKeep.CreatorId != user.Id){

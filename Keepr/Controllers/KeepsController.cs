@@ -21,7 +21,6 @@ namespace Keepr.Controllers
     }
     // STUB get all keeps sorted by most recent
     [HttpGet]
-    // use authsettled to log people in before page load
     public ActionResult<List<Keep>> GetAllKeeps()
     {
       try

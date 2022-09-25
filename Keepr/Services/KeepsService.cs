@@ -39,8 +39,8 @@ namespace Keepr.Services
     internal Keep GetKeepById(int id)
     {
       Keep keep = _keepsRepo.GetKeepById(id);
-      if (keep == null){
-        throw new Exception ("unable to find keep with that Id");
+      if (keep.Name == null){
+        throw new Exception("unable to find keep with that Id");
       }
       keep.Views++;
       _keepsRepo.EditKeep(keep);

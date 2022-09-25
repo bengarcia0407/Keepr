@@ -24,8 +24,17 @@ namespace Keepr.Repositories
 
     internal Vault GetVaultById(int id)
     {
-      string sql = "SELECT * FROM vaults v WHERE v.id = @id;";
-      Vault vault = _db.Query<Vault>(sql, new {id}).FirstOrDefault();
+      // this V seems pointless, only the vault creator can access the vault, so why would they want to see creator info?
+      string sql = @"SELECT 
+        v.*,
+        a.* 
+        FROM vaults v 
+        JOIN accounts a ON v.creatorId = a.id
+        WHERE v.id = @id;";
+      Vault vault = _db.Query<Vault, Profile, Vault>(sql, (vault, profile) => {
+          vault.Creator = profile;
+          return vault;
+        }, new {id}).FirstOrDefault();
       return vault;
     }
 

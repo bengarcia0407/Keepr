@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -54,8 +53,17 @@ namespace Keepr.Repositories
 
     internal List<Keep> GetAllKeepsByVaultId(int vaultId)
     {
-      // setup vault routes first
-      throw new NotImplementedException();
+      string sql = @"SELECT 
+        k.*, a.*
+        FROM vaultKeeps vk 
+        JOIN keeps k ON vk.keepId = k.id
+        JOIN accounts a ON k.creatorId = a.id
+        WHERE vk.vaultId = @id;";
+        List<Keep> keeps = _db.Query<Keep, Profile, Keep>(sql, (keep, profile)=>{
+          keep.Creator = profile;
+          return keep;
+        }, new {vaultId}).ToList();
+        return keeps;
     }
 
     internal Keep CreateKeep(Keep keepData)
@@ -64,20 +72,29 @@ namespace Keepr.Repositories
         (creatorId, name, description, img)
         VALUES
         (@creatorId, @name, @description, @img);
-        SELECT LAST_INSERT_ID()";
+        SELECT LAST_INSERT_ID();";
         int id = _db.ExecuteScalar<int>(sql, keepData);
         keepData.Id = id;
         return keepData;
     }
 
-    internal Keep EditKeep(Keep original)
+    internal Keep EditKeep(Keep edit)
     {
-      throw new NotImplementedException();
+      string sql = @"
+      UPDATE keeps SET
+      name = @name,
+      description = @description,
+      img = @img,
+      views = @views
+      WHERE id = @id;";
+      _db.Execute(sql, edit);
+      return edit;
     }
 
     internal void DeleteKeep(int id)
     {
-      throw new NotImplementedException();
+      string sql = "DELETE FROM keeps WHERE id = @id;";
+      _db.Execute(sql, new {id});
     }
   }
 }

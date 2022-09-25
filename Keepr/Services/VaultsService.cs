@@ -23,22 +23,37 @@ namespace Keepr.Services
 
     internal Vault GetVaultById(int vaultId, string userId)
     {
-      throw new NotImplementedException();
+      Vault vault = _vaultsRepo.GetVaultById(vaultId);
+      if (vault == null){
+        throw new Exception("no vault with that Id");
+      }
+      if (vault.CreatorId != userId){
+        throw new Exception("This is not your vault!");
+      }
+      return vault;
     }
 
     internal Vault CreateVault(Vault vaultData)
     {
-      throw new NotImplementedException();
+      return _vaultsRepo.CreateVault(vaultData);
     }
 
     internal Vault EditVault(Vault vaultData, Account user)
     {
-      throw new NotImplementedException();
+      int vaultId = vaultData.Id;
+      Vault original = GetVaultById(vaultId, user.Id);
+      original.Name = vaultData.Name ?? original.Name;
+      original.Description = vaultData.Description ?? original.Description;
+      original.Img = vaultData.Img ?? original.Img;
+      original.IsPrivate = vaultData.IsPrivate ?? original.IsPrivate;
+      return _vaultsRepo.EditVault(original);
     }
 
     internal string DeleteVault(int id, Account user)
     {
-      throw new NotImplementedException();
+      Vault vault = GetVaultById(id, user.Id);
+      _vaultsRepo.DeleteVault(id);
+      return $"Your vault: {vault.Name} has been permanently deleted";
     }
   }
 }

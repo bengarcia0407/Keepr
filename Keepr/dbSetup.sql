@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS vaults(
 INSERT INTO vaults
 (creatorId, name, img)
 VALUES
-("632e194f96fb01c2672f465c", "funny", "https://assets3.thrillist.com/v1/image/2824030/1200x630/flatten;crop_down;webp=auto;jpeg_quality=70");
+("632e194f96fb01c2672f465c", "not funny", "https://i0.wp.com/winkgo.com/wp-content/uploads/2018/05/55-Funniest-Cat-Memes-Ever-Featured.jpg?fit=800%2C450&ssl=1");
 
 CREATE TABLE IF NOT EXISTS vaultKeeps(
   id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
@@ -55,9 +55,19 @@ CREATE TABLE IF NOT EXISTS vaultKeeps(
 INSERT INTO vaultKeeps
 (creatorId, vaultId, keepId)
 VALUES
-("62fead19fda8e818d13a81db", "1", "3");
+("62fead19fda8e818d13a81db", "1", "4");
 
 SELECT * FROM keeps ORDER BY id desc;
+
+SELECT * FROM vaults v WHERE v.id = "1";
+
+SELECT * FROM vaults v WHERE v.creatorId = "62fead19fda8e818d13a81db" ORDER BY v.id desc;
+
+SELECT
+k.*, a.*
+FROM vaultKeeps vk JOIN keeps k ON vk.keepId = k.id
+JOIN accounts a ON k.creatorId = a.id
+WHERE vk.vaultId = "4";
 
 SELECT 
 COUNT(vaultId) AS kept,

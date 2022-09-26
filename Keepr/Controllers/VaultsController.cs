@@ -24,12 +24,11 @@ namespace Keepr.Controllers
 
 // STUB get one vault by its id, 
     [HttpGet("{id}")]
-    [Authorize]
     public async Task<ActionResult<Vault>> GetVaultById(int id) { 
         try
       {
          Account user = await HttpContext.GetUserInfoAsync<Account>();
-         Vault vault = _vaultsService.GetVaultById(id, user.Id);
+         Vault vault = _vaultsService.GetVaultById(id, user?.Id);
          return Ok(vault);
       }
       catch (Exception e)
@@ -39,7 +38,7 @@ namespace Keepr.Controllers
     }
 // STUB get all keeps associated with the active vault
     [HttpGet("{vaultId}/keeps")]
-    [Authorize]
+    // [Authorize]
     public async Task<ActionResult<List<Keep>>> GetAllKeepsByVaultId(int vaultId)
     {
       try

@@ -24,12 +24,16 @@ namespace Keepr.Services
     internal Vault GetVaultById(int vaultId, string userId)
     {
       Vault vault = _vaultsRepo.GetVaultById(vaultId);
-      if (vault == null){
+      if (vault == null)
+      {
         throw new Exception("no vault with that Id");
       }
-      if (vault.CreatorId != userId){
-        throw new Exception("This is not your vault!");
+      if (vault.CreatorId != userId && vault.IsPrivate == true){
+        throw new Exception("you are not authorized to access this vault");
       }
+      // if (vault.CreatorId != userId){
+      //   throw new Exception("This is not your vault!");
+      // }
       return vault;
     }
 
@@ -42,6 +46,10 @@ namespace Keepr.Services
     {
       int vaultId = vaultData.Id;
       Vault original = GetVaultById(vaultId, user.Id);
+      if (original.CreatorId != user.Id)
+      {
+        throw new Exception("This is not your vault!");
+      }
       original.Name = vaultData.Name ?? original.Name;
       original.Description = vaultData.Description ?? original.Description;
       original.Img = vaultData.Img ?? original.Img;
@@ -52,6 +60,10 @@ namespace Keepr.Services
     internal string DeleteVault(int id, Account user)
     {
       Vault vault = GetVaultById(id, user.Id);
+      if (vault.CreatorId != user.Id)
+      {
+        throw new Exception("This is not your vault!");
+      }
       _vaultsRepo.DeleteVault(id);
       return $"Your vault: {vault.Name} has been permanently deleted";
     }

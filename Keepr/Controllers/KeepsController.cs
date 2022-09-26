@@ -40,7 +40,7 @@ namespace Keepr.Controllers
       try
       {
         Account user = await HttpContext.GetUserInfoAsync<Account>();
-        Keep keep = _keepsService.GetKeepById(id, user);
+        Keep keep = _keepsService.GetKeepById(id, user?.Id);
         return Ok(keep);
       }
       catch (Exception e)
@@ -74,7 +74,7 @@ namespace Keepr.Controllers
         Account user = await HttpContext.GetUserInfoAsync<Account>();
         // V this lets us send the id up attached to the object
         keepData.Id = id;
-        Keep keep = _keepsService.EditKeep(keepData, user);
+        Keep keep = _keepsService.EditKeep(keepData, user.Id);
         return Ok(keep);
       }
       catch (Exception e)
@@ -89,7 +89,7 @@ namespace Keepr.Controllers
       try
       {
         Account user = await HttpContext.GetUserInfoAsync<Account>();
-        string message = _keepsService.DeleteKeep(id, user);
+        string message = _keepsService.DeleteKeep(id, user.Id);
         return Ok(message);
       }
       catch (Exception e)

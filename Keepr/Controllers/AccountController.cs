@@ -38,16 +38,14 @@ namespace Keepr.Controllers
         return BadRequest(e.Message);
       }
     }
-
-    // STUB get all keeps created by me
-    // https://localhost:5001/account/keeps
-    [HttpGet("/keeps")]
-    public async Task<ActionResult<List<Keep>>> GetAllAccountKeeps()
+    [HttpGet("keeps")]
+    [Authorize]
+    public async Task<ActionResult<List<Keep>>> GetAccountKeeps()
     {
       try
       {
-        Account user = await HttpContext.GetUserInfoAsync<Account>();
-        List<Keep> keeps = _keepsService.GetAllProfileKeeps(user.Id);
+        Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
+        List<Keep> keeps = _keepsService.GetAllProfileKeeps(userInfo.Id);
         return Ok(keeps);
       }
       catch (Exception e)
@@ -56,8 +54,27 @@ namespace Keepr.Controllers
       }
     }
 
+    // STUB get all keeps created by me
+    // https://localhost:5001/account/keeps
+    // [HttpGet("/keeps")]
+    // [Authorize]
+    // public async Task<ActionResult<List<Keep>>> GetAllAccountKeeps()
+    // {
+    //   try
+    //   {
+    //     Account user = await HttpContext.GetUserInfoAsync<Account>();
+    //     List<Keep> keeps = _keepsService.GetAllProfileKeeps(user.Id);
+    //     return Ok(keeps);
+    //   }
+    //   catch (Exception e)
+    //   {
+    //     return BadRequest(e.Message);
+    //   }
+    // }
+
     // STUB get all Vaults created by me
-    [HttpGet("/vaults")]
+    [HttpGet("vaults")]
+    [Authorize]
     public async Task<ActionResult<List<Vault>>> GetAllAccountVaults()
     {
       try

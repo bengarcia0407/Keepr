@@ -93,4 +93,4 @@ JOIN keeps k ON vk.keepId = k.id
 JOIN accounts a ON k.creatorId = a.id
 WHERE vk.vaultId = "3";
 
-SELECT * FROM keeps;
+SELECT v.*, a.* FROM vaults v JOIN accounts a ON v.creatorId = a.id WHERE v.creatorId = "62fead19fda8e818d13a81db" ORDER BY v.id desc;

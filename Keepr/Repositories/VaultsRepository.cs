@@ -17,8 +17,10 @@ namespace Keepr.Repositories
 
     internal List<Vault> GetAllProfileVaults(string id)
     {
-      string sql = @"SELECT * FROM vaults v WHERE v.creatorId = @id ORDER BY v.id desc;";
-      List<Vault> vaults = _db.Query<Vault>(sql, new {id}).ToList();
+      string sql = @"SELECT v.*, a.* FROM vaults v JOIN accounts a ON v.creatorId = a.id WHERE v.creatorId = @id ORDER BY v.id desc;";
+      List<Vault> vaults = _db.Query<Vault, Profile, Vault>(sql, (vault, profile) => {
+        vault.Creator = profile;
+        return vault;}, new {id}).ToList();
       return vaults;
     }
 

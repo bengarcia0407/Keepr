@@ -4,7 +4,7 @@ using Dapper;
 
 namespace Keepr.Repositories
 {
-    public class AccountsRepository
+  public class AccountsRepository
     {
         private readonly IDbConnection _db;
 
@@ -36,7 +36,13 @@ namespace Keepr.Repositories
             return newAccount;
         }
 
-        internal Account Edit(Account update)
+    internal Profile GetProfileById(string id)
+    {
+      string sql = "SELECT * FROM accounts WHERE id = @id";
+            return _db.QueryFirstOrDefault<Profile>(sql, new { id });
+    }
+
+    internal Account Edit(Account update)
         {
             string sql = @"
             UPDATE accounts

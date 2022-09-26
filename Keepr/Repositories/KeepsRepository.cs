@@ -46,10 +46,10 @@ namespace Keepr.Repositories
 
     internal List<Keep> GetAllProfileKeeps(string userId)
     {
-      string sql = @"SELECT * FROM keeps k 
-        WHERE k.creatorId = @userId 
-        ORDER BY k.id desc;";
-      List<Keep> keeps = _db.Query<Keep>(sql, new { userId }).ToList();
+      string sql = @"SELECT k.*, a.* FROM keeps k JOIN accounts a ON k.creatorId = a.id WHERE k.creatorId = @userId ORDER BY k.id desc;";
+      List<Keep> keeps = _db.Query<Keep, Profile, Keep>(sql, (keep, profile) => {
+        keep.Creator = profile;
+        return keep;}, new {userId}).ToList();
       return keeps;
     }
 

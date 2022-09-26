@@ -13,6 +13,9 @@
 import { computed } from "vue";
 
 export default {
+  props: {
+    vault: { type: Object, required: true }
+  },
   setup() {
     return {
     }

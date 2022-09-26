@@ -14,13 +14,16 @@ namespace Keepr.Controllers
     public class VaultKeepsController : ControllerBase
     {
         private readonly VaultKeepsService _vaultKeepsService;
+        private readonly VaultsService _vaultsService;
 
-    public VaultKeepsController(VaultKeepsService vaultKeepsService)
+    public VaultKeepsController(VaultKeepsService vaultKeepsService, VaultsService vaultsService)
     {
       _vaultKeepsService = vaultKeepsService;
+      _vaultsService = vaultsService;
     }
-// I never need to get vaultkeeps directly, i just use them to join vaults to keeps, so my only cruds are create and delete
-    
+
+    // I never need to get vaultkeeps directly, i just use them to join vaults to keeps, so my only cruds are create and delete
+
     [HttpGet]
     public ActionResult<VaultKeep> GetAll(){
       try
@@ -50,15 +53,16 @@ namespace Keepr.Controllers
       }
     }
 
+    // the body needs to include the vaultId and the keepId
     [HttpPost]
     [Authorize]
-    // the body needs to include the vaultId and the keepId
     public async Task<ActionResult<VaultKeep>> AddKeepToVault([FromBody] VaultKeep vaultKeepData){
         try
       {
         Account user = await HttpContext.GetUserInfoAsync<Account>();
         vaultKeepData.CreatorId = user.Id;
-        VaultKeep vaultKeep = _vaultKeepsService.AddKeepToVault(vaultKeepData);
+        Vault vault = _vaultsService.GetVaultById(vaultKeepData.VaultId, user.Id);
+        VaultKeep vaultKeep = _vaultKeepsService.AddKeepToVault(vaultKeepData, vault);
         return Ok(vaultKeep);
       }
       catch (Exception e)

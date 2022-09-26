@@ -42,7 +42,8 @@ namespace Keepr.Services
       if (keep.Name == null){
         throw new Exception("unable to find keep with that Id");
       }
-      if (keep.CreatorId != userId && userId != null){
+      // && userId != null
+      if (keep.CreatorId != userId){
       keep.Views++;
       _keepsRepo.EditKeep(keep);
       }
@@ -63,7 +64,7 @@ namespace Keepr.Services
       original.Name = keepData.Name ?? original.Name;
       original.Description = keepData.Description ?? original.Description;
       original.Img = keepData.Img ?? original.Img;
-      original.Views = keepData.Views ?? original.Views;
+      // original.Views = keepData.Views ?? original.Views;
       return _keepsRepo.EditKeep(original);
     }
 

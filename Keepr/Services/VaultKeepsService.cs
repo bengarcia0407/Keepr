@@ -29,9 +29,12 @@ namespace Keepr.Services
       }
       return vaultKeep;
     }
-    internal VaultKeep AddKeepToVault(VaultKeep vaultKeepData)
+    internal VaultKeep AddKeepToVault(VaultKeep vaultKeepData, Vault vault)
     {
         // this will increase keptcount for all users, how do I prevent this from happening when the creator adds it to their own vault?
+      if (vaultKeepData.CreatorId != vault.CreatorId){
+        throw new Exception("you cannot add keeps to vaults you do not own.");
+      }
       return _vaultKeepsRepo.AddKeepToVault(vaultKeepData);
     }
 

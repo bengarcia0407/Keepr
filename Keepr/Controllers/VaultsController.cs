@@ -44,7 +44,7 @@ namespace Keepr.Controllers
       try
       {
         Account user = await HttpContext.GetUserInfoAsync<Account>();
-        List<Keep> keeps = _keepsService.GetAllKeepsByVaultId(vaultId, user.Id);
+        List<Keep> keeps = _keepsService.GetAllKeepsByVaultId(vaultId, user?.Id);
         return Ok(keeps);
       }
       catch (Exception e)

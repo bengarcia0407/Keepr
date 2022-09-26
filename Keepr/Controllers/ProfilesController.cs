@@ -56,7 +56,7 @@ namespace Keepr.Controllers
       try
       {
         Account user = await HttpContext.GetUserInfoAsync<Account>();
-        List<Vault> vaults = _vaultsService.GetAllProfileVaults(userId, user.Id);
+        List<Vault> vaults = _vaultsService.GetAllProfileVaults(userId, user?.Id);
         // vaults = vaults.FindAll(v => v.IsPrivate == false || v.CreatorId == user.Id);
         return Ok(vaults);
       }

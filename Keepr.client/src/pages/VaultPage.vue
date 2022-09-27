@@ -1,6 +1,6 @@
 <template>
   <div class="container-fluid">
-    <div v-if="profile.id" class="row">
+    <div v-if="vault.id" class="row">
       <div class="col-3">
         <img :src="profile.picture" alt="profile picture" class="profile-image ms-5 my-5" name="profile-image"
           id="profile-image" title="profile-image">
@@ -46,43 +46,33 @@ export default {
     const route = useRoute()
     const router = useRouter()
 
-    async function setActiveProfile() {
+    async function setActiveVault() {
       try {
-        await accountService.setActiveProfile(route.params.id);
+        await vaultsService.setActiveVault(route.params.id);
       }
       catch (error) {
         Pop.error(error);
         router.push({ name: 'Home' })
       }
     }
-    async function getAllProfileVaults() {
+    async function getAllVaultKeeps() {
       try {
-        await vaultsService.getAllProfileVaults(route.params.id);
-      }
-      catch (error) {
-        Pop.error(error);
-      }
-    }
-    async function getAllProfileKeeps() {
-      try {
-        await keepsService.getAllProfileKeeps(route.params.id);
+        await keepsService.getAllVaultKeeps(route.params.id);
       }
       catch (error) {
         Pop.error(error);
       }
     }
     onMounted(() => {
-      setActiveProfile();
-      getAllProfileVaults();
-      getAllProfileKeeps();
+      setActiveVault();
+      getAllVaultKeeps();
     });
     return {
       keeps: computed(() => AppState.keeps),
-      vaults: computed(() => AppState.vaults),
-      profile: computed(() => AppState.activeProfile)
+      vault: computed(() => AppState.activeVault)
     };
   },
-  components: { KeepsCard, VaultsCard }
+  components: { KeepsCard }
 }
 </script>
 

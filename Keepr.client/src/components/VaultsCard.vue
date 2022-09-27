@@ -1,12 +1,12 @@
 <template>
-  <div>
-    <div v-if="vault.id" class="image rounded elevation-3">
-      <img class="img-fluid" :src="vault.img" alt="">
-      <h2>
-        {{vault.name}}
-      </h2>
-    </div>
-  </div>
+  <router-link :to="{name: 'Vault', params: {id:vault?.id}}">
+    <div v-if="vault.id" class="image rounded elevation-3 m-3" :style="`background-image: url(${vault.img});`">
+        <!-- <img class="cover" :src="vault.img" alt=""> -->
+        <h4 class="p-2">
+          {{vault.name}}
+        </h4>
+      </div>
+    </router-link>
 </template>
 
 <script>
@@ -18,6 +18,11 @@ export default {
   },
   setup() {
     return {
+      computed: {
+        background(){
+          return `background-image: url("vault.img");`;
+        }
+      }
     }
   }
 }
@@ -26,11 +31,17 @@ export default {
 <style lang="scss" scoped>
 
 .image { 
-   position: relative; 
-   width: 100%;
-}
+   position: relative;
+   height: 300px;
+   background-size: cover;
+   background-repeat: no-repeat;
+   transition: transform .5s;
+   &:hover{
+     transform: scale(1.05);
+   }
+  }
 
-h2 { 
+h4 { 
    position: absolute; 
    top: 5px; 
    left: 10px; 

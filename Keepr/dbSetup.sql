@@ -96,3 +96,5 @@ WHERE vk.vaultId = "3";
 SELECT v.*, a.* FROM vaults v JOIN accounts a ON v.creatorId = a.id WHERE v.creatorId = "62fead19fda8e818d13a81db" ORDER BY v.id desc;
 
 SELECT k.*, v.* FROM vaultKeeps vk JOIN vaults v on vk.vaultId = v.id JOIN keeps k ON vk.keepId = k.id WHERE vk.vaultId = "1";
+
+ALTER TABLE vaults ALTER img SET DEFAULT "https://images.unsplash.com/photo-1462045504115-6c1d931f07d1?ixlib=rb-1.2.1&auto=format&fit=crop&w=1951&q=80";

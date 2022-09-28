@@ -8,6 +8,7 @@ import { api } from "./AxiosService.js"
 class KeepsService{
 
   async setActiveKeep(id){
+    AppState.activeKeep = {}
     const keep = await this.getKeepById(id)
     AppState.activeKeep = keep
   }
@@ -25,6 +26,7 @@ class KeepsService{
     AppState.keeps = res.data
   }
   async getAllProfileKeeps(id){
+    AppState.keeps = []
     const res = await api.get(`api/profiles/${id}/keeps`)
     logger.log('getting profile keeps', res.data)
     AppState.keeps = res.data

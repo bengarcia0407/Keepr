@@ -15,15 +15,15 @@
       <h2>Keeps <i class="btn mdi mdi-plus-outline mdi-36px"></i></h2>
       <div v-if="keeps.length" class="masonry-with-columns p-0 m-0">
         <div v-for="k in keeps" :key="k.id">
-          <KeepsCard :keep="k" />
+          <KeepsCard :user="user" :keep="k" />
         </div>
       </div>
     </div>
   </div>
+  <KeepModal/>
 </template>
 
 <script>
-import { keepsService } from "../services/KeepsService.js"
 import { vaultsService } from "../services/VaultsService.js"
 import { onMounted } from "vue";
 import Pop from "../utils/Pop.js";
@@ -31,8 +31,7 @@ import KeepsCard from "../components/KeepsCard.vue";
 import { computed } from "@vue/reactivity";
 import { AppState } from "../AppState.js";
 import { useRoute, useRouter } from "vue-router";
-import { accountService } from "../services/AccountService.js";
-import VaultsCard from "../components/VaultsCard.vue";
+import KeepModal from "../components/KeepModal.vue";
 
 export default {
   name: "Profile",
@@ -51,7 +50,10 @@ export default {
     }
     async function getAllVaultKeeps() {
       try {
-        await keepsService.getAllVaultKeeps(route.params.id);
+        await vaultsService.getAllVaultKeeps(route.params.id);
+        if (AppState.keeps.length == 0){
+          Pop.toast('This Vault is currently empty! Try adding some keeps from the home page.')
+        }
       }
       catch (error) {
         Pop.error(error);
@@ -62,11 +64,13 @@ export default {
       getAllVaultKeeps();
     });
     return {
+      user: computed(()=> AppState.user),
       keeps: computed(() => AppState.keeps),
-      vault: computed(() => AppState.activeVault)
+      vault: computed(() => AppState.activeVault),
+      profile: computed(() => AppState.activeProfile)
     };
   },
-  components: { KeepsCard }
+  components: { KeepsCard, KeepModal }
 }
 </script>
 

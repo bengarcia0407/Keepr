@@ -21,11 +21,12 @@
       <h2>Keeps <i class="btn mdi mdi-plus-outline mdi-36px"></i></h2>
       <div v-if="keeps.length" class="masonry-with-columns p-0 m-0">
         <div v-for="k in keeps" :key="k.id">
-          <KeepsCard :keep="k" />
+          <KeepsCard :user="user" :keep="k" />
         </div>
       </div>
     </div>
   </div>
+  <KeepModal/>
 </template>
 
 <script>
@@ -39,6 +40,7 @@ import { AppState } from "../AppState.js";
 import { useRoute, useRouter } from "vue-router";
 import { accountService } from "../services/AccountService.js";
 import VaultsCard from "../components/VaultsCard.vue";
+import KeepModal from "../components/KeepModal.vue";
 
 export default {
   name: "Profile",
@@ -77,12 +79,13 @@ export default {
       getAllProfileKeeps();
     });
     return {
+      user: computed(() => AppState.user),
       keeps: computed(() => AppState.keeps),
       vaults: computed(() => AppState.vaults),
       profile: computed(() => AppState.activeProfile)
     };
   },
-  components: { KeepsCard, VaultsCard }
+  components: { KeepsCard, VaultsCard, KeepModal }
 }
 </script>
 

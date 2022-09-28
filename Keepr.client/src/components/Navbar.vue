@@ -2,7 +2,8 @@
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-3">
     <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
       <div class="d-flex flex-column align-items-center">
-        <img alt="logo" src="../assets/img/cw-logo.png" height="45" />
+        
+        <h4 class="align-items-center"><img alt="logo" src="https://meltric.com/media/contentmanager/content/image_280.png" height="45" /> Keepr</h4>
       </div>
     </router-link>
     <button
@@ -19,11 +20,11 @@
     <div class="collapse navbar-collapse" id="navbarText">
       <ul class="navbar-nav me-auto">
         <li>
-          <router-link
-            :to="{ name: 'About' }"
+          <router-link v-if="userId"
+            :to="{ name: 'Profile', params: {id: userId}}"
             class="btn text-success lighten-30 selectable text-uppercase"
           >
-            About
+            My Vaults
           </router-link>
         </li>
       </ul>
@@ -34,9 +35,14 @@
 </template>
 
 <script>
+import { computed } from "@vue/reactivity";
+import { AppState } from "../AppState.js";
+
 export default {
   setup() {
-    return {};
+    return {
+      userId: computed(()=> AppState.user.id)
+    };
   },
 };
 </script>

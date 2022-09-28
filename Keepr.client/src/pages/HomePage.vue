@@ -51,6 +51,7 @@ export default {
 .masonry-with-columns {
   columns: 20vw;
   column-gap: 1em;
+  flex-direction: row;
 
   div {
     display: inline-block;

@@ -1,6 +1,5 @@
 <template>
-<Modal>
-    <div class="modal fade modal-xl" :id="keep-modal" tabindex="-1" aria-labelledby="keep-modalLabel"
+    <div class="modal fade modal-xl" id="keep-modal" tabindex="-1" aria-labelledby="keep-modalLabel"
       aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -15,7 +14,7 @@
 
               <div class="col-12 col-md-6">
                 <div class="row mt-0 me-3">
-                  <span type="button" class="mdi mdi-close mdi-36px col-1 offset-11 mt-0 pt-0"
+                  <span id="modal-close" type="button" class="mdi mdi-close mdi-36px col-1 offset-11 mt-0 pt-0"
                     data-bs-dismiss="modal"></span>
                 </div>
                 <div class="d-flex d-inline align-items-center justify-content-center user-select-none">
@@ -41,19 +40,33 @@
       </div>
     </div>
 
-  </Modal>
 </template>
 
 <script>
 import { computed } from "@vue/reactivity";
 import { AppState } from "../AppState.js";
+import { keepsService } from "../services/KeepsService.js";
+import { logger } from "../utils/Logger.js";
+import Pop from "../utils/Pop.js";
 
 export default {
 
   setup() {
     return {
       keep: computed(()=> AppState.activeKeep),
-      user: computed(()=> AppState.user)
+      user: computed(()=> AppState.user),
+
+      async deleteKeep(id) {
+        try {
+          await keepsService.deleteKeep(id);
+        }
+        catch (error) {
+          logger.error(["deleting a keep"], error)
+          Pop.error(error);
+        }
+        document.getElementById("modal-close").click()
+        await keepsService.getAllKeeps()
+      },
     }
   }
 }

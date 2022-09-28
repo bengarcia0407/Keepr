@@ -1,8 +1,7 @@
 <template>
   <div class="">
     <div v-if="keep.id" class="image rounded elevation-3">
-      <img class="img-fluid" :src="keep.img" alt="keep card" type="button"
-        :data-bs-target="'#keep-modal-' + keep.id" @click="setActiveKeep(keep.id)">
+      <img class="img-fluid" :src="keep.img" alt="keep card" type="button" @click="setActiveKeep(keep.id)">
       <h2>
         {{keep.name}}
       </h2>
@@ -40,16 +39,6 @@ export default {
         catch (error) {
           logger.error(["setting the active keep"], error)
           router.push({ name: 'Home'})
-          Pop.error(error);
-        }
-      },
-      async deleteKeep(id) {
-        try {
-          await keepsService.deleteKeep(id);
-        }
-        catch (error) {
-          logger.error(["deleting a keep"], error)
-          document.getElementById("modal-close").click()
           Pop.error(error);
         }
       },

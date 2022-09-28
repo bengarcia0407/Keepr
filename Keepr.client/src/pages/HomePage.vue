@@ -10,6 +10,7 @@
       </div>
     </div>
   </div>
+  <KeepModal/>
 </template>
 
 <script>
@@ -20,6 +21,7 @@ import KeepsCard from "../components/KeepsCard.vue";
 import { computed } from "@vue/reactivity";
 import { AppState } from "../AppState.js";
 import { logger } from "../utils/Logger.js";
+import KeepModal from "../components/KeepModal.vue";
 
 export default {
   name: "Home",
@@ -41,7 +43,7 @@ export default {
       user: computed(() => AppState.user)
     };
   },
-  components: { KeepsCard }
+  components: { KeepsCard, KeepModal }
 }
 </script>
 

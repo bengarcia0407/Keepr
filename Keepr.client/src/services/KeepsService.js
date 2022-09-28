@@ -7,6 +7,10 @@ import { api } from "./AxiosService.js"
 
 class KeepsService{
 
+  async setActiveKeep(id){
+    const keep = await this.getKeepById(id)
+    AppState.activeKeep = keep
+  }
   async getKeepById(id){
     const res = await api.get(`api/keeps/${id}`)
     if (res.data == null){
@@ -30,7 +34,7 @@ class KeepsService{
     if (AppState.user.id != keep.creatorId){
       throw new Error('unauthorized')
     }
-    const yes = await Pop.confirm('are you sure you want to permanently delete this keep? (this action cannot be undone!)')
+    const yes = await Pop.confirm('Are you sure you want to permanently delete this keep?')
     if (yes) {
       await api.delete(`api/keeps/${id}`)
       AppState.keeps.filter(k => k.id != id)

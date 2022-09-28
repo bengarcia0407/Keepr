@@ -4,7 +4,7 @@
       <div class="col-12">
         <div v-if="keeps.length" class="masonry-with-columns p-0 m-0">
           <div v-for="k in keeps" :key="k.id">
-            <KeepsCard :keep="k" />
+            <KeepsCard :user="user" :keep="k"/>
           </div>
         </div>
       </div>
@@ -19,6 +19,7 @@ import Pop from "../utils/Pop.js";
 import KeepsCard from "../components/KeepsCard.vue";
 import { computed } from "@vue/reactivity";
 import { AppState } from "../AppState.js";
+import { logger } from "../utils/Logger.js";
 
 export default {
   name: "Home",
@@ -28,6 +29,7 @@ export default {
         await keepsService.getAllKeeps();
       }
       catch (error) {
+        logger.error(["getting all keeps"], error)
         Pop.error(error);
       }
     }
@@ -35,8 +37,8 @@ export default {
       getAllKeeps();
     });
     return {
-      keeps: computed(() =>
-        AppState.keeps)
+      keeps: computed(() => AppState.keeps),
+      user: computed(() => AppState.user)
     };
   },
   components: { KeepsCard }
@@ -45,7 +47,7 @@ export default {
 
 <style scoped lang="scss">
 .masonry-with-columns {
-  columns: 25vw;
+  columns: 20vw;
   column-gap: 1em;
 
   div {

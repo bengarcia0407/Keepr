@@ -7,16 +7,10 @@
       </div>
       <div class="col-8 mt-5 me-auto">
         <h1>{{profile.name}}</h1>
-        <h4>Vaults: {{vaults.length}}</h4>
         <h4>Keeps: {{keeps.length}}</h4>
       </div>
     </div>
-    <h2>Vaults <i class="btn mdi mdi-plus-outline mdi-36px"></i></h2>
-    <div v-if="vaults.length" class="row">
-      <div v-for="v in vaults" :key="v.id" class="col-2">
-        <VaultsCard :vault="v" />
-      </div>
-    </div>
+
     <div class="row">
       <h2>Keeps <i class="btn mdi mdi-plus-outline mdi-36px"></i></h2>
       <div v-if="keeps.length" class="masonry-with-columns p-0 m-0">

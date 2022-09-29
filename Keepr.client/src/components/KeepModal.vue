@@ -29,13 +29,18 @@
               </div>
 
               <div v-if="user?.id == keep.creatorId" type="button" class="mdi mdi-delete-outline mdi-36px trash"
-                @click="deleteKeep(keep.id)"></div>
+                @click="deleteKeep(keep.id)" title="delete keep"></div>
               <router-link v-if="keep.id" :to="{name: 'Profile', params: {id:keep?.creatorId}}" title="go to profile" class="profile-link">
                 <div class="keep-modal-profile-img d-flex align-items-center" data-bs-dismiss="modal">
                   <img class="img-fluid rounded" :src="keep.creator.picture" alt="profile picture" :title="keep.creator.name">
                   <h5 class="ps-2 d-none d-md-block">{{keep.creator.name}}</h5>
                 </div>
               </router-link>
+              router or hide create buttons on profile page
+              before unmount empty activevault
+              create vault form needs work
+              make form required, fix the ref for isPrivate
+
 
             </div>
           </div>

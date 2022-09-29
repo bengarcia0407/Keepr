@@ -9,7 +9,7 @@ class VaultKeepsService{
 
   async getVaultKeepById(id){
     const res = await api.get(`api/vaultKeeps/${id}`)
-    logger.log('vault keep by id', res.data)
+    // logger.log('vault keep by id', res.data)
     return res.data
   }
   async removeKeepFromVault(id){

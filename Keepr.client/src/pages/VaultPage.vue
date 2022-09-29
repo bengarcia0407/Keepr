@@ -1,5 +1,6 @@
 <template>
   <div class="container-fluid">
+    <button v-if="user.id == vault.creatorId" class="delete-btn btn btn-primary" @click="deleteVault(user.id)">Delete Vault</button>
     <div v-if="vault.id" class="row">
       <div class="profile-img col-6 col-md-3">
         <img :src="profile.picture" alt="profile picture" class="profile-image ms-5 my-5" name="profile-image"
@@ -19,7 +20,7 @@
       </div>
     </div>
   </div>
-  <KeepModal/>
+  <KeepModal />
 </template>
 
 <script>
@@ -50,7 +51,7 @@ export default {
     async function getAllVaultKeeps() {
       try {
         await vaultsService.getAllVaultKeeps(route.params.id);
-        if (AppState.keeps.length == 0){
+        if (AppState.keeps.length == 0) {
           Pop.toast('This Vault is currently empty! Try adding some keeps from the home page.')
         }
       }
@@ -63,10 +64,19 @@ export default {
       getAllVaultKeeps();
     });
     return {
-      user: computed(()=> AppState.user),
+      user: computed(() => AppState.user),
       keeps: computed(() => AppState.keeps),
       vault: computed(() => AppState.activeVault),
-      profile: computed(() => AppState.activeProfile)
+      profile: computed(() => AppState.activeProfile),
+      async deleteVault(userId) {
+      try {
+        await vaultsService.deleteVault(route.params.id);
+      }
+      catch (error) {
+        Pop.error(error);
+      }
+      router.push({ name: 'Profile', params: { id: userId } })
+    }
     };
   },
   components: { KeepsCard, KeepModal }
@@ -77,19 +87,34 @@ export default {
 .masonry-with-columns {
   columns: 20vw;
   column-gap: 1em;
+
   @media (max-width: 756px) {
     columns: 40vw;
   }
 
-  .profile-img{
+  .profile-img {
     @media (max-width: 756px) {
-    offset: 3;
-  }
+      offset: 3;
+    }
   }
 
   div {
     display: inline-block;
     margin-bottom: 1em;
   }
+}
+
+.delete-btn {
+  position: absolute;
+  top: 15%;
+  right: 1%;
+  &:hover {
+    transition: ease-in-out;
+    filter: hue-rotate(150deg);
+  }
+}
+
+template {
+  position: relative;
 }
 </style>

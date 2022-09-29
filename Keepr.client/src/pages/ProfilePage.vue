@@ -11,7 +11,7 @@
         <h4>Keeps: {{keeps.length}}</h4>
       </div>
     </div>
-    <h2>Vaults <i class="btn mdi mdi-plus-outline mdi-36px"></i></h2>
+    <h2>Vaults <i class="btn mdi mdi-plus-outline mdi-36px" @click="openVaultForm()"></i></h2>
     <div v-if="vaults.length" class="row">
       <div v-for="v in vaults" :key="v.id" class="col-4 col-md-1 m-3">
         <VaultsCard :vault="v" />
@@ -27,6 +27,7 @@
     </div>
   </div>
   <KeepModal/>
+  <VaultForm/>
 </template>
 
 <script>
@@ -43,6 +44,7 @@ import VaultsCard from "../components/VaultsCard.vue";
 import KeepModal from "../components/KeepModal.vue";
 import CreateKeepForm from "../components/CreateKeepForm.vue";
 import { Modal } from "bootstrap";
+import VaultForm from "../components/VaultForm.vue";
 
 export default {
   name: "Profile",
@@ -87,10 +89,13 @@ export default {
       profile: computed(() => AppState.activeProfile),
       openCreateKeepForm(){
         Modal.getOrCreateInstance(document.getElementById("CreateKeepForm")).toggle();
+      },
+      openVaultForm(){
+        Modal.getOrCreateInstance(document.getElementById("VaultForm")).toggle();
       }
     };
   },
-  components: { KeepsCard, VaultsCard, KeepModal, CreateKeepForm }
+  components: { KeepsCard, VaultsCard, KeepModal, CreateKeepForm, VaultForm }
 }
 </script>
 

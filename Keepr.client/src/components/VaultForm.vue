@@ -1,34 +1,40 @@
 <template>
-  <div class="modal fade" id="CreateKeepForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  <div class="modal fade" id="VaultForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
       <form class="modal-content" @submit.prevent="handlesubmit()">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-          <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+          <h3 class="modal-title" id="exampleModalLabel">Create Vault</h3>
+          <div type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+            <i class="mdi mdi-close mdi-36px text-danger"></i>
+          </div>
         </div>
         <div class="modal-body">
           <div class="form-group">
-            <label for="title">Title</label>
+            <label for="title">Vault Name</label>
             <input v-model="editable.name" type="text" class="form-control" id="title" name="title"
               placeholder="Enter Title" required>
           </div>
           <div class="form-group">
-            <label for="Description">Description: Tell the story!</label>
+            <label for="Description">Vault Description</label>
             <textarea v-model="editable.description" class="form-control" id="description" placeholder="(optional)"
               name="description" rows="3" maxlength="500"></textarea>
           </div>
           <div class="form-group">
-            <label for="image">Image/Video</label>
+            <label for="image">Cover Image</label>
             <input v-model="editable.img" type="text" class="form-control" id="image" placeholder="Paste link here!"
               name="image/video" maxlength="1000">
           </div>
+          <div class="form-check">
+            <input v-model="editable.isPrivate" class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+            <label class="form-check-label" for="flexCheckDefault">
+              Private?
+            </label>
+          </div>
+          <small class="text-dark lighten-50">Private Vaults can only be seen by you</small>
         </div>
         <div class="modal-footer">
           <button type="submit" class="btn btn-primary">Submit</button>
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         </div>
       </form>
     </div>
@@ -58,9 +64,10 @@ export default {
           //   Pop.toast('keep edited successfully', "success")
           //   Modal.getOrCreateInstance(document.getElementById("CreateKeepForm")).toggle()
           // } else {
-            await keepsService.createKeep(editable.value)
-            Pop.toast('Keep created successfully!')
-            Modal.getOrCreateInstance(document.getElementById("CreateKeepForm")).toggle()
+          await keepsService.createKeep(editable.value)
+          Pop.toast('Keep created successfully!')
+          editable.value = {}
+          Modal.getOrCreateInstance(document.getElementById("CreateKeepForm")).toggle()
           // }
         } catch (error) {
           logger.error('[edit/create keep]', error);

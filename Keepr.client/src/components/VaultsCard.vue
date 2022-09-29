@@ -1,5 +1,5 @@
 <template>
-  <router-link :to="{name: 'Vault', params: {id:vault?.id}}">
+  <router-link :to="{name: 'Vault', params: {id:vault?.id}}" title="go to vault">
     <div v-if="vault.id" class="image rounded elevation-3 m-3" :style="`background-image: url(${vault.img});`">
         <h6 class="p-2 text-light no-select">
           {{vault.name}}

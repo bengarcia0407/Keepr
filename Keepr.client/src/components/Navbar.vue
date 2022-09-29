@@ -28,7 +28,7 @@
         <li>
           <button v-if="userId" @click="openCreateKeepForm()"
             class="btn text-primary lighten-30 selectable text-uppercase"
-          ><i class="mdi mdi-plus-thick"></i> New keep
+           title="create new keep"><i class="mdi mdi-plus-thick"></i> New keep
         </button>
         </li>
       </ul>

@@ -5,7 +5,7 @@
       <form class="modal-content" @submit.prevent="handlesubmit()">
         <div class="modal-header">
           <h3 class="modal-title" id="exampleModalLabel">Create Vault</h3>
-          <div type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+          <div type="button" class="close" data-bs-dismiss="modal" aria-label="Close" name="close button" title="close modal">
             <i class="mdi mdi-close mdi-36px text-danger"></i>
           </div>
         </div>
@@ -13,28 +13,28 @@
           <div class="form-group">
             <label for="title">Vault Name</label>
             <input v-model="editable.name" type="text" class="form-control" id="title" name="title"
-              placeholder="Enter Title" required>
+              placeholder="Enter Title" required title="new vault name">
           </div>
           <div class="form-group">
             <label for="Description">Vault Description</label>
             <textarea v-model="editable.description" class="form-control" id="description" placeholder="(optional)"
-              name="description" rows="3" maxlength="500"></textarea>
+              name="description" rows="3" maxlength="500" title="new vault description"></textarea>
           </div>
           <div class="form-group">
             <label for="image">Cover Image</label>
             <input v-model="editable.img" type="text" class="form-control" id="image" placeholder="Paste link here!"
-              name="image/video" maxlength="1000">
+              name="image/video" maxlength="1000" title="new vault cover image">
           </div>
           <div class="form-check">
-            <input v-model="editable.isPrivate" class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+            <input v-model="editable.isPrivate" class="form-check-input" type="checkbox" value="" id="flexCheckDefault" title="is vault private?">
             <label class="form-check-label" for="flexCheckDefault">
               Private?
             </label>
           </div>
-          <small class="text-dark lighten-50">Private Vaults can only be seen by you</small>
+          <p class="text-dark lighten-50">Private Vaults can only be seen by you</p>
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-primary">Submit</button>
+          <button type="submit" class="btn btn-primary" name="submit button" title="submit form">Submit</button>
         </div>
       </form>
     </div>

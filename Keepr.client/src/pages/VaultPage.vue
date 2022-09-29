@@ -1,6 +1,6 @@
 <template>
   <div class="container-fluid">
-    <button v-if="user.id == vault.creatorId" class="delete-btn btn btn-primary" @click="deleteVault(user.id)">Delete Vault</button>
+    <button v-if="user.id == vault.creatorId" class="delete-btn btn btn-primary" @click="deleteVault(user.id)" title="delete vault">Delete Vault</button>
     <div v-if="vault.id" class="row">
       <div class="profile-img col-6 col-md-3">
         <img :src="profile.picture" alt="profile picture" class="profile-image ms-5 my-5" name="profile-image"

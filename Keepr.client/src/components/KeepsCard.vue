@@ -1,11 +1,11 @@
 <template>
   <div v-if="keep.id">
     <div  class="image rounded elevation-3">
-      <img class="img-fluid" :src="keep.img" alt="keep card" type="button" @click="setActiveKeep(keep.id)">
+      <img class="img-fluid" :src="keep.img" alt="keep image" type="button" @click="setActiveKeep(keep.id)">
       <h2 class="text-light ps-2">
         {{keep.name}}
       </h2>
-      <i v-if="user.id && vault.creatorId == user.id" class="mdi mdi-delete mdi-36px remove-btn text-light" type="button" @click="removeKeepFromVault(keep.vaultKeepId)"></i>
+      <i v-if="user.id && vault.creatorId == user.id" class="mdi mdi-delete mdi-36px remove-btn text-light" type="button" @click="removeKeepFromVault(keep.vaultKeepId)" name="delete button" title="delete keep from vault"></i>
       <router-link v-if="keep.creatorId != user.id" :to="{name: 'Profile', params: {id:keep?.creatorId}}">
         <img class="keep-profile-img img-fluid" :src="keep.creator.picture" alt="" :title="keep.creator.name">
       </router-link>

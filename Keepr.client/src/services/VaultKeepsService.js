@@ -8,9 +8,9 @@ import { vaultsService } from "./VaultsService.js"
 class VaultKeepsService{
 
   async getVaultKeepById(id){
-    const vaultKeep = await api.get(`api/vaultKeeps/${id}`)
-    logger.log('vault keep by id', vaultKeep)
-    return vaultKeep
+    const res = await api.get(`api/vaultKeeps/${id}`)
+    logger.log('vault keep by id', res.data)
+    return res.data
   }
   async removeKeepFromVault(id){
     const vaultKeep = await this.getVaultKeepById(id)
@@ -20,8 +20,7 @@ class VaultKeepsService{
     const yes = await Pop.confirm('Are you sure you want to remove this keep from your vault?')
     if (yes) {
       await api.delete(`api/vaultKeeps/${id}`)
-      const res = await vaultsService.getAllVaultKeeps(vaultKeep.vaultId)
-      AppState.keeps = res.data
+      await vaultsService.getAllVaultKeeps(vaultKeep.vaultId)
       Pop.toast('Keep removed')
   }
 }

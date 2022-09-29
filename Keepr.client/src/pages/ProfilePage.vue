@@ -1,11 +1,11 @@
 <template>
   <div class="container-fluid">
     <div v-if="profile.id" class="row">
-      <div class="col-3">
+      <div class="col-10 col-md-2">
         <img :src="profile.picture" alt="profile picture" class="profile-image ms-5 my-5" name="profile-image"
           id="profile-image" title="profile-image">
       </div>
-      <div class="col-8 mt-5 me-auto">
+      <div class="col-10 col-md-8 mt-5 me-auto">
         <h1>{{profile.name}}</h1>
         <h4>Vaults: {{vaults.length}}</h4>
         <h4>Keeps: {{keeps.length}}</h4>
@@ -13,7 +13,7 @@
     </div>
     <h2>Vaults <i class="btn mdi mdi-plus-outline mdi-36px"></i></h2>
     <div v-if="vaults.length" class="row">
-      <div v-for="v in vaults" :key="v.id" class="col-2">
+      <div v-for="v in vaults" :key="v.id" class="col-4 col-md-1 m-3">
         <VaultsCard :vault="v" />
       </div>
     </div>
@@ -96,12 +96,19 @@ export default {
 
 <style scoped lang="scss">
 .masonry-with-columns {
-  columns: 25vw;
+  columns: 15vw;
   column-gap: 1em;
-
+  @media (max-width: 756px) {
+  columns: 40vw;
+  }
   div {
     display: inline-block;
     margin-bottom: 1em;
   }
+}
+.profile-image{
+  height: 150px;
+  width: 150px;
+  border-radius: 5%;
 }
 </style>

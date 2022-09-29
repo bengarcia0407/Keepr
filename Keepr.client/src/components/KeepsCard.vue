@@ -5,7 +5,7 @@
       <h2 class="text-light ps-2">
         {{keep.name}}
       </h2>
-      <i v-if="vault.creatorId == user.id" class="mdi mdi-delete mdi-36px remove-btn text-light" type="button" @click="removeKeepFromVault(keep.vaultKeepId)"></i>
+      <i v-if="user.id && vault.creatorId == user.id" class="mdi mdi-delete mdi-36px remove-btn text-light" type="button" @click="removeKeepFromVault(keep.vaultKeepId)"></i>
       <router-link v-if="keep.creatorId != user.id" :to="{name: 'Profile', params: {id:keep?.creatorId}}">
         <img class="keep-profile-img img-fluid" :src="keep.creator.picture" alt="" :title="keep.creator.name">
       </router-link>
@@ -132,6 +132,9 @@ h2 {
   background-size: contain;
   background-repeat: no-repeat;
   background-size: 80vh;
+  @media (max-width: 756px) {
+  background-size: 50vh;
+  }
 }
 
 .modal-box {
@@ -144,5 +147,8 @@ h2 {
 
 .object-fit {
   object-fit: contain;
+}
+template{
+  overflow-y: scroll;
 }
 </style>

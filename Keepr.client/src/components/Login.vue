@@ -81,4 +81,7 @@ export default {
 .hoverable {
   cursor: pointer;
 }
+template{
+  overflow-x: hidden;
+}
 </style>

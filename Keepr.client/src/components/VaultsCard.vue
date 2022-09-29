@@ -1,7 +1,7 @@
 <template>
   <router-link :to="{name: 'Vault', params: {id:vault?.id}}">
     <div v-if="vault.id" class="image rounded elevation-3 m-3" :style="`background-image: url(${vault.img});`">
-        <h6 class="p-2">
+        <h6 class="p-2 text-light no-select">
           {{vault.name}}
         </h6>
       </div>
@@ -31,7 +31,8 @@ export default {
 
 .image { 
    position: relative;
-   height: 200px;
+   height: 120px;
+   width: 120px;
    background-size: cover;
    background-repeat: no-repeat;
    transition: transform .4s;

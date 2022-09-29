@@ -31,6 +31,10 @@ class KeepsService{
     logger.log('getting profile keeps', res.data)
     AppState.keeps = res.data
   }
+  async createKeep(keepData){
+    const res = await api.post('api/keeps', keepData)
+    AppState.keeps.push(res.data)
+  }
   async deleteKeep(id){
     const keep = await this.getKeepById(id)
     if (AppState.user.id != keep.creatorId){

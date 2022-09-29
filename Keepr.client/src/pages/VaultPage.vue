@@ -1,18 +1,18 @@
 <template>
   <div class="container-fluid">
     <div v-if="vault.id" class="row">
-      <div class="col-3">
+      <div class="profile-img col-6 col-md-3">
         <img :src="profile.picture" alt="profile picture" class="profile-image ms-5 my-5" name="profile-image"
           id="profile-image" title="profile-image">
       </div>
-      <div class="col-8 mt-5 me-auto">
+      <div class="col-10 col-md-8 mt-5 me-auto">
         <h1>{{profile?.name}}</h1>
         <h4>Keeps: {{keeps.length}}</h4>
       </div>
     </div>
 
     <div class="row">
-      <div v-if="keeps.length" class="masonry-with-columns p-0 m-0">
+      <div v-if="keeps.length" class="masonry-with-columns">
         <div v-for="k in keeps" :key="k.id">
           <KeepsCard :user="user" :keep="k" />
         </div>
@@ -75,8 +75,17 @@ export default {
 
 <style scoped lang="scss">
 .masonry-with-columns {
-  columns: 25vw;
+  columns: 20vw;
   column-gap: 1em;
+  @media (max-width: 756px) {
+    columns: 40vw;
+  }
+
+  .profile-img{
+    @media (max-width: 756px) {
+    offset: 3;
+  }
+  }
 
   div {
     display: inline-block;

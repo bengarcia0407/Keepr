@@ -6,7 +6,7 @@
           <div class="modal-header d-block">
             <div class="row">
 
-              <img class="col-12 col-md-6 image-fluid draggable-none user-select-none width-50 object-fit"
+              <img class="col-12 col-md-6 image-fluid draggable-none user-select-none"
                 :src="keep.img" alt="keep image">
 
               <div class="col-12 col-md-6">
@@ -33,7 +33,7 @@
                   <router-link v-if="keep.id" :to="{name: 'Profile', params: {id:keep?.creatorId}}" class="profile-link">
                     <div class="keep-modal-profile-img d-flex align-items-center" data-bs-dismiss="modal">
                       <img class="img-fluid rounded" :src="keep.creator.picture" alt="" :title="keep.creator.name">
-                      <h5 class="ps-2">{{keep.creator.name}}</h5>
+                      <h5 class="ps-2 d-none d-md-block">{{keep.creator.name}}</h5>
                     </div>
                   </router-link>
 

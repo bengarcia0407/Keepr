@@ -11,16 +11,14 @@
 
               <div class="col-12 col-md-6">
                 <div class="row mt-0 me-3 ">
-<!-- TODO ask about why dropdown and data-target attributes aren't working -->
                   <div class="col-3 align-self-end dropdown">
-                    <h5 class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="mdi mdi-plus-thick"></i> <b> to Vault</b></h5>
+                    <h5 class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-plus-thick"></i> <b> to Vault</b></h5>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <a class="dropdown-item" href="#">Something else here</a>
+                      <div v-for="v in vaults" :key="v.id">
+                        <h5 class="dropdown-item btn" @click="addToVault(v.id, keep.id)">{{v.name}}</h5>
+                      </div>
                     </div>
                   </div>
-
                   <h5 class="col-2 offset-2 align-self-end"><i class="mdi mdi-eye"></i> {{keep.views}}</h5>
                   <h5 class="col-2 align-self-end"><i class="mdi mdi-lock"></i> {{keep.kept}}</h5>
                   <span id="modal-close" type="button" class="mdi mdi-close mdi-36px col-1 offset-2 mt-0 pt-0"
@@ -52,15 +50,18 @@
 import { computed } from "@vue/reactivity";
 import { AppState } from "../AppState.js";
 import { keepsService } from "../services/KeepsService.js";
+import { vaultKeepsService } from "../services/VaultKeepsService.js";
 import { logger } from "../utils/Logger.js";
 import Pop from "../utils/Pop.js";
 
 export default {
 
   setup() {
+
     return {
       keep: computed(()=> AppState.activeKeep),
       user: computed(()=> AppState.user),
+      vaults: computed(()=> AppState.vaults),
 
       async deleteKeep(id) {
         try {
@@ -72,6 +73,16 @@ export default {
         }
         document.getElementById("modal-close").click()
         await keepsService.getAllKeeps()
+      },
+      async addToVault(vaultId, keepId) {
+        try {
+          await vaultKeepsService.addToVault(vaultId, keepId)
+        }
+        catch (error) {
+          logger.error(["adding keep to vault"], error)
+          Pop.error(error);
+        }
+        document.getElementById("modal-close").click()
       },
     }
   }
@@ -86,7 +97,7 @@ export default {
     bottom: 3%;
     left: 50%;
     &:hover {
-    transform: scale(1.01);
+    transform: scale(1.002);
     transition: ease-in-out;
     filter: hue-rotate(60deg);
   }

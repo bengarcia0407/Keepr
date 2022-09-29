@@ -2,6 +2,7 @@ import { AppState } from "../AppState.js"
 import { logger } from "../utils/Logger.js"
 import Pop from "../utils/Pop.js"
 import { api } from "./AxiosService.js"
+import { keepsService } from "./KeepsService.js"
 import { vaultsService } from "./VaultsService.js"
 
 class VaultKeepsService{
@@ -23,6 +24,15 @@ class VaultKeepsService{
       AppState.keeps = res.data
       Pop.toast('Keep removed')
   }
+}
+async addToVault(vaultId, keepId){
+  const vaultKeep = {}
+  await vaultsService.getVaultById(vaultId)
+  await keepsService.getKeepById(keepId)
+  vaultKeep.keepId = keepId
+  vaultKeep.vaultId = vaultId
+  await api.post('api/vaultkeeps', vaultKeep)
+  Pop.toast('Keep successfully placed in Vault.', "success")
 }
 }
 export const vaultKeepsService = new VaultKeepsService()

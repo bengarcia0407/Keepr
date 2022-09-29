@@ -19,6 +19,8 @@ import { Modal } from "bootstrap";
 import { AppState } from "../AppState.js";
 import { router } from "../router.js";
 import { keepsService } from "../services/KeepsService.js";
+import { vaultKeepsService } from "../services/VaultKeepsService.js";
+import { vaultsService } from "../services/VaultsService.js";
 import { logger } from "../utils/Logger.js";
 import Pop from "../utils/Pop.js";
 import KeepModal from "./KeepModal.vue";
@@ -34,6 +36,7 @@ export default {
       async setActiveKeep(id) {
         try {
           await keepsService.setActiveKeep(id);
+          await vaultsService.getAllProfileVaults(props.user.id)
           if (props.keep.creatorId != props.user.id) {
             props.keep.views++
           }
@@ -117,7 +120,7 @@ h2 {
   position: absolute;
   bottom: 5px;
   left: 10px;
-
+  text-shadow: 0px 1px 4px black;
   &:hover {
     transform: scale(1.02);
     transition: ease-in-out;

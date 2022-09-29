@@ -62,6 +62,9 @@ export default {
   columns: 20vw;
   column-gap: 1em;
   flex-direction: row;
+  @media (max-width: 756px) {
+    columns: 40vw;
+  }
 
   div {
     display: inline-block;

@@ -19,7 +19,7 @@
     </div>
     <div class="row">
       <h2>Keeps <i class="btn mdi mdi-plus-outline mdi-36px" @click="openCreateKeepForm()"></i></h2>
-      <div v-if="keeps.length" class="masonry-with-columns p-0 m-0">
+      <div v-if="keeps.length" class="masonry-with-columns">
         <div v-for="k in keeps" :key="k.id">
           <KeepsCard :user="user" :keep="k" />
         </div>

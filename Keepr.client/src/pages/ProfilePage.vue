@@ -11,14 +11,14 @@
         <h4>Keeps: {{keeps.length}}</h4>
       </div>
     </div>
-    <h2>Vaults <i class="btn mdi mdi-plus-outline mdi-36px" @click="openVaultForm()"></i></h2>
+    <h2>Vaults <i v-if="user.id" class="btn mdi mdi-plus-outline mdi-36px" @click="openVaultForm()"></i></h2>
     <div v-if="vaults.length" class="row">
       <div v-for="v in vaults" :key="v.id" class="col-4 col-md-1 m-3">
         <VaultsCard :vault="v" />
       </div>
     </div>
     <div class="row">
-      <h2>Keeps <i class="btn mdi mdi-plus-outline mdi-36px" @click="openCreateKeepForm()"></i></h2>
+      <h2>Keeps <i v-if="user.id" class="btn mdi mdi-plus-outline mdi-36px" @click="openCreateKeepForm()"></i></h2>
       <div v-if="keeps.length" class="masonry-with-columns">
         <div v-for="k in keeps" :key="k.id">
           <KeepsCard :user="user" :keep="k" />

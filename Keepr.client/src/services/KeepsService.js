@@ -43,5 +43,9 @@ class KeepsService{
       Pop.toast('Keep deleted')
     }
   }
+  clearActiveStates(){
+    AppState.activeVault = {}
+    AppState.activeKeep = {}
+  }
 }
 export const keepsService = new KeepsService()

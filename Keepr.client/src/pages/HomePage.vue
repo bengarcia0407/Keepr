@@ -35,8 +35,18 @@ export default {
         Pop.error(error);
       }
     }
+    async function clearActiveStates() {
+      try {
+        await keepsService.clearActiveStates();
+      }
+      catch (error) {
+        logger.error(["clearing active vault and keeps"], error)
+        Pop.error(error);
+      }
+    }
     onMounted(() => {
       getAllKeeps();
+      clearActiveStates()
     });
     return {
       keeps: computed(() => AppState.keeps),

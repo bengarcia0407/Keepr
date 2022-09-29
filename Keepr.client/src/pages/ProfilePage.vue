@@ -18,7 +18,7 @@
       </div>
     </div>
     <div class="row">
-      <h2>Keeps <i class="btn mdi mdi-plus-outline mdi-36px"></i></h2>
+      <h2>Keeps <i class="btn mdi mdi-plus-outline mdi-36px" @click="openCreateKeepForm()"></i></h2>
       <div v-if="keeps.length" class="masonry-with-columns p-0 m-0">
         <div v-for="k in keeps" :key="k.id">
           <KeepsCard :user="user" :keep="k" />
@@ -41,6 +41,8 @@ import { useRoute, useRouter } from "vue-router";
 import { accountService } from "../services/AccountService.js";
 import VaultsCard from "../components/VaultsCard.vue";
 import KeepModal from "../components/KeepModal.vue";
+import CreateKeepForm from "../components/CreateKeepForm.vue";
+import { Modal } from "bootstrap";
 
 export default {
   name: "Profile",
@@ -82,10 +84,13 @@ export default {
       user: computed(() => AppState.user),
       keeps: computed(() => AppState.keeps),
       vaults: computed(() => AppState.vaults),
-      profile: computed(() => AppState.activeProfile)
+      profile: computed(() => AppState.activeProfile),
+      openCreateKeepForm(){
+        Modal.getOrCreateInstance(document.getElementById("CreateKeepForm")).toggle();
+      }
     };
   },
-  components: { KeepsCard, VaultsCard, KeepModal }
+  components: { KeepsCard, VaultsCard, KeepModal, CreateKeepForm }
 }
 </script>
 

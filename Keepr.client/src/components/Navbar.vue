@@ -2,7 +2,6 @@
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-3">
     <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
       <div class="d-flex flex-column align-items-center">
-        
         <h4 class="align-items-center"><img alt="logo" src="https://meltric.com/media/contentmanager/content/image_280.png" height="45" /> Keepr</h4>
       </div>
     </router-link>
@@ -17,15 +16,20 @@
     >
       <span class="navbar-toggler-icon" />
     </button>
-    <div class="collapse navbar-collapse" id="navbarText">
-      <ul class="navbar-nav me-auto">
+    <div class="collapse navbar-collapse justify-content-between" id="navbarText">
+      <ul class="navbar-nav m-3">
         <li>
           <router-link v-if="userId"
             :to="{ name: 'Profile', params: {id: userId}}"
-            class="btn text-success lighten-30 selectable text-uppercase"
-          >
-            My Vaults
+            class="btn text-primary lighten-30 selectable text-uppercase"
+          > My Vaults
           </router-link>
+        </li>
+        <li>
+          <button v-if="userId" @click="openCreateKeepForm()"
+            class="btn text-primary lighten-30 selectable text-uppercase"
+          ><i class="mdi mdi-plus-thick"></i> New keep
+        </button>
         </li>
       </ul>
       <!-- LOGIN COMPONENT HERE -->
@@ -36,12 +40,16 @@
 
 <script>
 import { computed } from "@vue/reactivity";
+import { Modal } from "bootstrap";
 import { AppState } from "../AppState.js";
 
 export default {
   setup() {
     return {
-      userId: computed(()=> AppState.user.id)
+      userId: computed(()=> AppState.user.id),
+      openCreateKeepForm(){
+        Modal.getOrCreateInstance(document.getElementById("CreateKeepForm")).toggle();
+      }
     };
   },
 };
@@ -55,7 +63,7 @@ a:hover {
   text-transform: uppercase;
 }
 .navbar-nav .router-link-exact-active {
-  border-bottom: 2px solid var(--bs-success);
+  border-bottom: 2px solid var(--bs-primary);
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
 }

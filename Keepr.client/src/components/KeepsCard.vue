@@ -1,11 +1,12 @@
 <template>
-  <div class="">
-    <div v-if="keep.id" class="image rounded elevation-3">
+  <div v-if="keep.id">
+    <div  class="image rounded elevation-3">
       <img class="img-fluid" :src="keep.img" alt="keep card" type="button" @click="setActiveKeep(keep.id)">
       <h2 class="text-light ps-2">
         {{keep.name}}
       </h2>
-      <router-link v-if="keep" :to="{name: 'Profile', params: {id:keep?.creatorId}}">
+      <i v-if="vault.creatorId == user.id" class="mdi mdi-delete mdi-36px remove-btn text-light" type="button" @click="removeKeepFromVault(keep.vaultKeepId)"></i>
+      <router-link v-if="keep.creatorId != user.id" :to="{name: 'Profile', params: {id:keep?.creatorId}}">
         <img class="keep-profile-img img-fluid" :src="keep.creator.picture" alt="" :title="keep.creator.name">
       </router-link>
     </div>
@@ -13,7 +14,9 @@
 </template>
 
 <script>
+import { computed } from "@vue/reactivity";
 import { Modal } from "bootstrap";
+import { AppState } from "../AppState.js";
 import { router } from "../router.js";
 import { keepsService } from "../services/KeepsService.js";
 import { logger } from "../utils/Logger.js";
@@ -23,38 +26,47 @@ import KeepModal from "./KeepModal.vue";
 export default {
   props: {
     keep: { type: Object, required: true },
-    user: {type: Object, required: false}
+    user: { type: Object, required: false }
   },
   setup(props) {
     return {
-      // user: computed(() => AppState.userInfo)
-      // keepImg: `url(${props.keep.img})`
-      async setActiveKeep(id){
+      vault: computed(() => AppState.activeVault),
+      async setActiveKeep(id) {
         try {
           await keepsService.setActiveKeep(id);
-          if(props.keep.creatorId != props.user.id){
-            props.keep.views++}
-            Modal.getOrCreateInstance(document.getElementById("keep-modal")).toggle();
+          if (props.keep.creatorId != props.user.id) {
+            props.keep.views++
+          }
+          Modal.getOrCreateInstance(document.getElementById("keep-modal")).toggle();
         }
         catch (error) {
           logger.error(["setting the active keep"], error)
-          router.push({ name: 'Home'})
+          router.push({ name: 'Home' })
           Pop.error(error);
         }
       },
       async getKeepById(id) {
         try {
           await keepsService.getKeepById(id);
-          if(props.keep.creatorId != props.user.id){
+          if (props.keep.creatorId != props.user.id) {
             props.keep.views++
           }
         }
         catch (error) {
           logger.error(["getting keep by ID"], error)
-          router.push({ name: 'Home'})
+          router.push({ name: 'Home' })
           Pop.error(error);
         }
-      }
+      },
+      async removeKeepFromVault(id) {
+        try {
+          await vaultKeepsService.removeKeepFromVault(id)
+          }
+        catch (error) {
+          Pop.error(error);
+        }
+      },
+
     };
   },
   components: { KeepModal }
@@ -62,14 +74,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-// .keep-img-bg {
-//   // background-image: v-bind(keepImg);
-//   background-position: center;
-//   background-size: contain;
-//   background-repeat: no-repeat;
-//   width:auto;
-//   height: 100%;
-// }
 
 .image {
   position: relative;
@@ -101,6 +105,24 @@ h2 {
   width: 45px;
   height: 45px;
   border-radius: 50%;
+
+  &:hover {
+    transform: scale(1.02);
+    transition: ease-in-out;
+    filter: contrast(40%);
+  }
+}
+
+.remove-btn {
+  position: absolute;
+  bottom: 5px;
+  left: 10px;
+
+  &:hover {
+    transform: scale(1.02);
+    transition: ease-in-out;
+    filter: contrast(40%);
+  }
 }
 
 .modal-img {

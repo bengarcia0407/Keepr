@@ -6,13 +6,12 @@
           id="profile-image" title="profile-image">
       </div>
       <div class="col-8 mt-5 me-auto">
-        <h1>{{profile.name}}</h1>
+        <h1>{{profile?.name}}</h1>
         <h4>Keeps: {{keeps.length}}</h4>
       </div>
     </div>
 
     <div class="row">
-      <h2>Keeps <i class="btn mdi mdi-plus-outline mdi-36px"></i></h2>
       <div v-if="keeps.length" class="masonry-with-columns p-0 m-0">
         <div v-for="k in keeps" :key="k.id">
           <KeepsCard :user="user" :keep="k" />

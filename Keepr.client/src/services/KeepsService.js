@@ -22,7 +22,6 @@ class KeepsService{
   }
   async getAllKeeps(){
     const res = await api.get('api/keeps')
-    // logger.log('getting all keeps', res.data)
     AppState.keeps = res.data
   }
   async getAllProfileKeeps(id){

@@ -43,34 +43,27 @@
 
 <script>
 import { Modal } from "bootstrap";
-import { watchEffect, ref } from "vue";
-// import { useRoute } from "vue-router";
-// import { router } from "../router.js";
-import { keepsService } from "../services/KeepsService.js";
+import { ref } from "vue";
+import { vaultsService } from "../services/VaultsService.js";
 import { logger } from "../utils/Logger.js";
 import Pop from "../utils/Pop.js";
 
 export default {
   setup() {
     const editable = ref({})
-    // const router = useRoute()
-    // watchEffect(() => {editable.value = {...props.keep}})
+
     return {
       editable,
       async handlesubmit() {
         try {
-          // if (editable.value.id) {
-          //   await keepsService.editKeep(editable.value)
-          //   Pop.toast('keep edited successfully', "success")
-          //   Modal.getOrCreateInstance(document.getElementById("CreateKeepForm")).toggle()
-          // } else {
-          await keepsService.createKeep(editable.value)
-          Pop.toast('Keep created successfully!')
+          debugger
+          await vaultsService.createVault(editable.value)
+          Pop.toast('Vault created successfully!')
           editable.value = {}
-          Modal.getOrCreateInstance(document.getElementById("CreateKeepForm")).toggle()
+          Modal.getOrCreateInstance(document.getElementById("VaultForm")).toggle()
           // }
         } catch (error) {
-          logger.error('[edit/create keep]', error);
+          logger.error('[edit/create Vault]', error);
           Pop.error(error);
         }
       }

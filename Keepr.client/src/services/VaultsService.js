@@ -33,5 +33,10 @@ class VaultsService{
     const vault = await this.getVaultById(id)
     AppState.activeVault = vault
   }
+  async createVault(vaultData){
+    const res = await api.post('api/vaults', vaultData)
+    logger.log(res.data)
+    AppState.vaults.push(res.data)
+  }
 }
 export const vaultsService = new VaultsService()

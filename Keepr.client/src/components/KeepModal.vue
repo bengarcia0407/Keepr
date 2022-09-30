@@ -36,11 +36,6 @@
                   <h5 class="ps-2 d-none d-md-block">{{keep.creator.name}}</h5>
                 </div>
               </router-link>
-              router or hide create buttons on profile page
-              before unmount empty activevault
-              create vault form needs work
-              make form required, fix the ref for isPrivate
-
 
             </div>
           </div>

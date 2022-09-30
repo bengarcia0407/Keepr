@@ -25,13 +25,14 @@
 
 <script>
 import { vaultsService } from "../services/VaultsService.js"
-import { onMounted } from "vue";
+import { onMounted, onUnmounted } from "vue";
 import Pop from "../utils/Pop.js";
 import KeepsCard from "../components/KeepsCard.vue";
 import { computed } from "@vue/reactivity";
 import { AppState } from "../AppState.js";
 import { useRoute, useRouter } from "vue-router";
 import KeepModal from "../components/KeepModal.vue";
+import { keepsService } from "../services/KeepsService.js";
 
 export default {
   name: "Profile",
@@ -59,10 +60,22 @@ export default {
         Pop.error(error);
       }
     }
+    async function clearActiveStates() {
+      try {
+        await keepsService.clearActiveStates();
+      }
+      catch (error) {
+        Pop.error(error);
+        router.push({ name: 'Home' })
+      }
+    }
     onMounted(() => {
       setActiveVault();
       getAllVaultKeeps();
     });
+    onUnmounted(() => {
+      clearActiveStates();
+    })
     return {
       user: computed(() => AppState.user),
       keeps: computed(() => AppState.keeps),

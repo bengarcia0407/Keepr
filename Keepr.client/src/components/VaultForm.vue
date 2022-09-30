@@ -23,7 +23,7 @@
           <div class="form-group">
             <label for="image">Cover Image</label>
             <input v-model="editable.img" type="text" class="form-control" id="image" placeholder="Paste link here!"
-              name="image/video" maxlength="1000" title="new vault cover image">
+              name="image/video" maxlength="1000" title="new vault cover image" required>
           </div>
           <div class="form-check">
             <input v-model="editable.isPrivate" class="form-check-input" type="checkbox" value="" id="flexCheckDefault" title="is vault private?">
@@ -50,13 +50,14 @@ import Pop from "../utils/Pop.js";
 
 export default {
   setup() {
-    const editable = ref({})
+    const editable = ref({
+       isPrivate: false
+    })
 
     return {
       editable,
       async handlesubmit() {
         try {
-          debugger
           await vaultsService.createVault(editable.value)
           Pop.toast('Vault created successfully!')
           editable.value = {}

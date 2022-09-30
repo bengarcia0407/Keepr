@@ -23,7 +23,7 @@
           <div class="form-group">
             <label for="image">Image/Video</label>
             <input v-model="editable.img" type="text" class="form-control" id="image" placeholder="Paste link here!"
-              name="image/video" maxlength="1000" title="new keep image">
+              name="image/video" maxlength="1000" title="new keep image" required>
           </div>
         </div>
         <div class="modal-footer">

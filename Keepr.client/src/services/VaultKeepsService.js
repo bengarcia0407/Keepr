@@ -1,5 +1,4 @@
 import { AppState } from "../AppState.js"
-import { logger } from "../utils/Logger.js"
 import Pop from "../utils/Pop.js"
 import { api } from "./AxiosService.js"
 import { keepsService } from "./KeepsService.js"
@@ -9,7 +8,6 @@ class VaultKeepsService{
 
   async getVaultKeepById(id){
     const res = await api.get(`api/vaultKeeps/${id}`)
-    // logger.log('vault keep by id', res.data)
     return res.data
   }
   async removeKeepFromVault(id){
